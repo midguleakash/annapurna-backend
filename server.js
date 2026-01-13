@@ -14,6 +14,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
+app.get("/", (req, res) => {
+  res.send("Annapurna backend is running");
+});
 
 // Routes (will add later)
 app.use("/user", require("./routes/user"));
