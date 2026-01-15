@@ -23,6 +23,8 @@ app.use("/user", require("./routes/user"));
 app.use("/donation", require("./routes/donationRoutes"));
 app.use("/recevieRequests", require("./routes/receiverRoutes"));
 app.use("/volunteer", require("./routes/volunterRoutes"));
+app.use("/ai", require("./routes/aiRoutes"));
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
