@@ -13,17 +13,21 @@ exports.suggestReceivers = async (req, res) => {
         const requests = await ReceiverRequest.find({ status: "Waiting" });
 
         const scored = requests.map(r => ({
-            request: r,
+            request: {
+                ...r._doc,
+                priority: getPriority(r) // ✅ ADD THIS
+            },
             score: calculateScore(donation, r)
         }));
 
         scored.sort((a, b) => b.score - a.score);
 
-        res.json(scored.slice(0, 3)); // Top 3 matches
+        res.json(scored.slice(0, 3));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 };
+
 
 // 🎯 AI Priority Prediction
 exports.getRequestsWithPriority = async (req, res) => {
