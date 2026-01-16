@@ -5,12 +5,18 @@ const { calculateScore, getPriority } = require("../utils/aiHelper");
 // 🎯 AI Suggest Receivers
 exports.suggestReceivers = async (req, res) => {
     try {
+
+        console.log("AI HIT for donation:", req.params.donationId);
+
         const donation = await Donation.findById(req.params.donationId);
+        console.log("Donation:", donation);
+
         if (!donation) {
             return res.status(404).json({ message: "Donation not found" });
         }
 
         const requests = await ReceiverRequest.find({ status: "Waiting" });
+          console.log("Waiting requests count:", requests.length);
 
         const scored = requests.map(r => ({
             request: {

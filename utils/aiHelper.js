@@ -16,8 +16,37 @@ function getDistance(lat1, lon1, lat2, lon2) {
     return R * c;
 }
 
+
+
+function extractQuantity(value) {
+    if (!value) return 0;
+
+    const match = value.toString().match(/\d+/);
+    return match ? Number(match[0]) : 0;
+}
+
+
+
+
 // 🧠 AI Matching Score
 function calculateScore(donation, request) {
+
+
+    const donationQty = extractQuantity(donation.quantity);
+    const requestQty = extractQuantity(request.quantity);
+
+
+    if (
+        !donation.location ||
+        !request.location ||
+        donation.location.latitude == null ||
+        request.location.latitude == null
+    ) {
+        return 0; // skip invalid data safely
+    }
+
+
+
     let score = 0;
 
     // Food match
@@ -29,17 +58,17 @@ function calculateScore(donation, request) {
     }
 
     // Quantity match
-    if (donation.quantity >= request.quantity) {
+    if (donationQty >= requestQty && donationQty > 0 && requestQty > 0) {
         score += 20;
     }
 
     // Distance check
     const distance = getDistance(
-        donation.location.lat,
-        donation.location.lng,
-        request.location.lat,
-        request.location.lng
-    );
+        donation.location.latitude,
+        donation.location.longitude,
+        request.location.latitude,
+        request.location.longitude
+);
 
     if (distance < 3) score += 20;
 
@@ -66,3 +95,12 @@ module.exports = {
     calculateScore,
     getPriority
 };
+
+
+function extractQuantity(value) {
+    if (!value) return 0;
+
+    const match = value.toString().match(/\d+/);
+    return match ? Number(match[0]) : 0;
+}
+
