@@ -15,21 +15,16 @@ exports.suggestReceivers = async (req, res) => {
             return res.status(404).json({ message: "Donation not found" });
         }
 
-        const requests = await ReceiverRequest.find({ status: "Waiting" });
-          console.log("Waiting requests count:", requests.length);
+        const requests = await ReceiverRequest.find({ status: "Waiting" })
+            .populate("receiver")
+            .populate("donor")
+            .populate("volunteer");
 
         
           
           const scored = requests.map(r => ({
                 request: {
-                    _id: r._id,
-                    receiver: r.receiver,
-                    donor: r.donor,
-                    volunteer: r.volunteer,
-                    foodType: r.foodType,
-                    quantity: r.quantity,
-                    status: r.status,
-                    donation: r.donation,
+                    ...r._doc,
                     priority: getPriority(r)
                 },
                 score: calculateScore(donation, r)
