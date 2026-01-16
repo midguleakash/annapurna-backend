@@ -18,13 +18,24 @@ exports.suggestReceivers = async (req, res) => {
         const requests = await ReceiverRequest.find({ status: "Waiting" });
           console.log("Waiting requests count:", requests.length);
 
-        const scored = requests.map(r => ({
-            request: {
-                ...r._doc,
-                priority: getPriority(r) // ✅ ADD THIS
-            },
-            score: calculateScore(donation, r)
-        }));
+        
+          
+          const scored = requests.map(r => ({
+                request: {
+                    _id: r._id,
+                    receiver: r.receiver,
+                    donor: r.donor,
+                    volunteer: r.volunteer,
+                    foodType: r.foodType,
+                    quantity: r.quantity,
+                    status: r.status,
+                    donation: r.donation,
+                    priority: getPriority(r)
+                },
+                score: calculateScore(donation, r)
+           }));
+
+
 
         scored.sort((a, b) => b.score - a.score);
 
