@@ -3,15 +3,42 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 require("dotenv").config();
 
-// DB
-connectDB();
+
 
 const app = express();
+
+
+app.use(cors({
+  origin: "*", // for development
+}));
+
+
+
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+
+// DB
+connectDB();
+
+/**
+ * HEALTH CHECK API
+ * Used to keep Render server awake
+ */
+app.get("/ping", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    message: "Annapurna backend is alive",
+    time: new Date()
+  });
+});
+
+/**
+ * Root API
+ */
 
 
 app.get("/", (req, res) => {
