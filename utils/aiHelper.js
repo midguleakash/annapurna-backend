@@ -51,8 +51,8 @@ function calculateScore(donation, request) {
 
     // Food match
     if (
-        donation.foodType.toLowerCase() ===
-        request.foodType.toLowerCase()
+        donation.foodType.trim().toLowerCase() ===
+        request.foodType.trim().toLowerCase()
     ) {
         score += 40;
     }
