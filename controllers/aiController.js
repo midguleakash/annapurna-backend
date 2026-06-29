@@ -20,15 +20,21 @@ exports.suggestReceivers = async (req, res) => {
             .populate("donor")
             .populate("volunteer");
 
-        
-          
-          const scored = requests.map(r => ({
+
+
+        const scored = requests.map(r => {
+
+            const score = calculateScore(donation, r);
+
+            return {
                 request: {
                     ...r._doc,
-                    priority: getPriority(r)
+                    priority: getPriority(score)
                 },
-                score: calculateScore(donation, r)
-           }));
+                score
+            };
+
+        });
 
 
 

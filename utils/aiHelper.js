@@ -68,7 +68,7 @@ function calculateScore(donation, request) {
         donation.location.longitude,
         request.location.latitude,
         request.location.longitude
-);
+    );
 
     if (distance < 3) score += 20;
 
@@ -82,12 +82,10 @@ function calculateScore(donation, request) {
 }
 
 // 🔥 Priority AI
-function getPriority(request) {
-    const hours =
-        (Date.now() - new Date(request.createdAt)) / (1000 * 60 * 60);
+function getPriority(score) {
 
-    if (hours > 5) return "HIGH";
-    if (hours > 2) return "MEDIUM";
+    if (score >= 70) return "HIGH";
+    if (score >= 40) return "MEDIUM";
     return "LOW";
 }
 
