@@ -27,11 +27,9 @@ exports.suggestReceivers = async (req, res) => {
             const score = calculateScore(donation, r);
 
             return {
-                request: {
-                    ...r._doc,
-                    priority: getPriority(score)
-                },
-                score
+                request: r,
+                score,
+                priority: getPriority(score)
             };
 
         });
