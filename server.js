@@ -7,9 +7,9 @@ require("dotenv").config();
 
 const app = express();
 
-
+// for website development
 app.use(cors({
-  origin: "*", // for development
+  origin: "*", 
 }));
 
 
@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
   res.send("Annapurna backend is running");
 });
 
-// Routes (will add later)
+// Routes 
 app.use("/user", require("./routes/user"));
 app.use("/donation", require("./routes/donationRoutes"));
 app.use("/recevieRequests", require("./routes/receiverRoutes"));

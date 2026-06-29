@@ -34,7 +34,7 @@ exports.suggestReceivers = async (req, res) => {
 
         scored.sort((a, b) => b.score - a.score);
 
-        res.json(scored.slice(0, 3));
+        res.json(scored.slice(0, 5));
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
